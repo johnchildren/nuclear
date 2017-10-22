@@ -15,8 +15,8 @@
 # resolver:
 #  name: custom-snapshot
 #  location: "./custom-snapshot.yaml"
-resolver: lts-9.3
-# resolver: nightly-2017-09-06
+resolver: lts-9.10
+# resolver: nightly-2017-10-22
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -41,11 +41,9 @@ packages:
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps:
-- megaparsec-6.1.1
-
-# TODO: update to llvm5 when supported by nix
-#- llvm-hs-5.0.0
-#- llvm-hs-pure-5.0.0
+  - megaparsec-6.2.0
+  - llvm-hs-5.1.0
+  - llvm-hs-pure-5.1.0
 
 # Override default flag values for local packages and extra-deps
 flags: {}
@@ -73,6 +71,6 @@ extra-package-dbs: []
 nix:
   enable: true
   packages:
-    - clang_4
+    - clang_5
     - ncurses
-    - llvm_4
+    - llvm_5

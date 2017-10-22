@@ -1,4 +1,4 @@
--- This file has been generated from package.yaml by hpack version 0.17.1.
+-- This file has been generated from package.yaml by hpack version 0.18.1.
 --
 -- see: https://github.com/sol/hpack
 
@@ -34,8 +34,8 @@ library
     , mtl
     , containers
     , megaparsec >= 6 && <7
-    , llvm-hs >=4 && <5
-    , llvm-hs-pure >=4 && <5
+    , llvm-hs >=5 && <6
+    , llvm-hs-pure >=5 && <6
   exposed-modules:
       Language.Nuclear.Codegen
       Language.Nuclear.Emit

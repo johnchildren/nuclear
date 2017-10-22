@@ -25,8 +25,8 @@ library:
   - mtl
   - containers
   - megaparsec >= 6 && <7
-  - llvm-hs >=4 && <5
-  - llvm-hs-pure >=4 && <5
+  - llvm-hs >=5 && <6
+  - llvm-hs-pure >=5 && <6
 executables:
   nuclear-exe:
     main: Main.hs
