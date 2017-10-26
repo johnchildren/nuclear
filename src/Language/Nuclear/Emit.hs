@@ -2,6 +2,7 @@ module Language.Nuclear.Emit where
 
 import           Control.Monad.Except
 import qualified Data.Map                        as Map
+import qualified Data.ByteString.Char8           as BS
 import           Data.String
 
 import           LLVM.Context
@@ -109,7 +110,7 @@ codegen mod fns =
   withContext $ \context ->
     withModuleFromAST context newast $ \m -> do
       llstr <- moduleLLVMAssembly m
-      print llstr
+      BS.putStr llstr
       return newast
   where
     modn = mapM codegenTop fns
