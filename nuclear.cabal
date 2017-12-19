@@ -1,6 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.18.1.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: d0da9172f8b0f2b7d0ae00641ff7fda76051ee2b8e75987300997a614845c7df
 
 name:           nuclear
 version:        0.1.0.0
@@ -29,13 +31,13 @@ library
       src
   build-depends:
       base >=4.7 && <5
-    , text
     , bytestring
-    , mtl
     , containers
-    , megaparsec >= 6 && <7
     , llvm-hs >=5 && <6
     , llvm-hs-pure >=5 && <6
+    , megaparsec >=6 && <7
+    , mtl
+    , text
   exposed-modules:
       Language.Nuclear.Codegen
       Language.Nuclear.Emit
@@ -53,12 +55,14 @@ executable nuclear-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base
-    , nuclear
-    , text
-    , mtl
     , containers
-    , repline
     , megaparsec
+    , mtl
+    , nuclear
+    , repline
+    , text
+  other-modules:
+      Paths_nuclear
   default-language: Haskell2010
 
 test-suite nuclear-test
@@ -70,4 +74,6 @@ test-suite nuclear-test
   build-depends:
       base
     , nuclear
+  other-modules:
+      Paths_nuclear
   default-language: Haskell2010
