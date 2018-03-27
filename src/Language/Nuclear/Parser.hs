@@ -18,9 +18,9 @@ type Parser = Parsec Decl TL.Text
 {-# INLINE sc #-}
 sc :: Parser ()
 sc = L.space space1 lineCmnt blockCmnt
-  where
-    lineCmnt = L.skipLineComment "--"
-    blockCmnt = L.skipBlockComment "{-" "-}"
+ where
+  lineCmnt  = L.skipLineComment "--"
+  blockCmnt = L.skipBlockComment "{-" "-}"
 
 {-# INLINE lexeme #-}
 lexeme :: Parser a -> Parser a
@@ -60,12 +60,11 @@ rws = ["True", "False", "let", "if", "then", "else"]
 {-# INLINE identifier #-}
 identifier :: Parser Name
 identifier = (lexeme . try) (p >>= check)
-  where
-    p = (:) <$> letterChar <*> many alphaNumChar
-    check x =
-      if x `elem` rws
-        then fail $ "keyword " ++ show x ++ " cannot be an identifier"
-        else return x
+ where
+  p = (:) <$> letterChar <*> many alphaNumChar
+  check x = if x `elem` rws
+    then fail $ "keyword " ++ show x ++ " cannot be an identifier"
+    else return x
 
 -- Expressions
 expr :: Parser Expr
@@ -103,10 +102,20 @@ term =
 
 aexp :: Parser Expr
 aexp =
-  parens expr <|> Var <$> identifier <|> lambda <|> Lit . LDouble <$> double <|>
-  Lit . LInt <$> integer <|>
-  Lit . LBool <$> boolean <|>
-  ifstmt
+  parens expr
+    <|> Var
+    <$> identifier
+    <|> lambda
+    <|> Lit
+    .   LDouble
+    <$> double
+    <|> Lit
+    .   LInt
+    <$> integer
+    <|> Lit
+    .   LBool
+    <$> boolean
+    <|> ifstmt
 
 type Binding = (String, Expr)
 
@@ -148,6 +157,6 @@ top = do
 modl :: Parser [Binding]
 modl = many top
 
-runParseModule ::
-     String -> TL.Text -> Either (ParseError (Token TL.Text) Decl) [Binding]
+runParseModule
+  :: String -> TL.Text -> Either (ParseError (Token TL.Text) Decl) [Binding]
 runParseModule = runParser modl
