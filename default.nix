@@ -1,2 +1,38 @@
-{ nixpkgs ? import <nixpkgs> {}, compiler ? "ghc822" }:
-nixpkgs.pkgs.haskell.packages.${compiler}.callPackage ./nuclear.nix { }
+{ nixpkgs ? import <nixpkgs> {}, compiler ? "default", doBenchmark ? false }:
+
+let
+
+  inherit (nixpkgs) pkgs;
+
+  f = { mkDerivation, base, bytestring, containers, llvm-hs
+      , llvm-hs-pure, megaparsec, mtl, repline, stdenv, text
+      }:
+      mkDerivation {
+        pname = "nuclear";
+        version = "0.1.0.0";
+        src = ./.;
+        isLibrary = true;
+        isExecutable = true;
+        libraryHaskellDepends = [
+          base bytestring containers llvm-hs llvm-hs-pure megaparsec mtl text
+        ];
+        executableHaskellDepends = [
+          base containers megaparsec mtl repline text
+        ];
+        testHaskellDepends = [ base ];
+        homepage = "https://github.com/jchildren/nuclear#readme";
+        description = "A language for numerical arrays";
+        license = stdenv.lib.licenses.bsd3;
+      };
+
+  haskellPackages = if compiler == "default"
+                       then pkgs.haskellPackages
+                       else pkgs.haskell.packages.${compiler};
+
+  variant = if doBenchmark then pkgs.haskell.lib.doBenchmark else pkgs.lib.id;
+
+  drv = variant (haskellPackages.callPackage f {});
+
+in
+
+  if pkgs.lib.inNixShell then drv.env else drv
